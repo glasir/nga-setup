@@ -1,0 +1,31 @@
+# TODO: Add configs to block sensitive files from being read directly.
+#       Follow along with the sample nginx config: https://github.com/phpbb/phpbb/blob/master/phpBB/docs/nginx.sample.conf
+
+{
+    debug
+
+    log {
+        output file /var/log/caddy/access.log
+        format console
+	level debug
+    }
+}
+
+forum.beta.nogoblinsallowed.com {
+	# Set this path to your site's directory.
+	root * /srv/forum.nogoblinsallowed.com
+
+	# Enable the static file server.
+	file_server
+
+	# Serve PHP files through php-fpm:
+	php_fastcgi unix//run/php/php8.2-fpm.sock
+
+	log {
+		output file /var/log/caddy/forum.log
+		format console
+
+        # TODO: Once things are going smoothly, bump this to a quieter level
+		level debug
+	}
+}
